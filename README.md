@@ -5,7 +5,5 @@ A simple and clean **To-Do List** mobile application built using **Flutter**, de
 ## 📱 Features
 
 - ✅ Add and manage tasks
-- 📥 Slide left or right to delete a task
+- 📥 Slide left to delete a task
 - 🎨 Themed UI using **Asian College** branding (e.g. deep red, navy blue, white)
-- 🌓 Light and dark mode support
-- 💾 Local data persistence (using `shared_preferences`)
