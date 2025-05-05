@@ -22,15 +22,15 @@ class DialogBox extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(color: theme.colorScheme.primary, width: 2),
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: theme.colorScheme.tertiary, width: 1.5),
       ),
       title: Row(
         children: [
-          Icon(Icons.assignment_add, color: theme.colorScheme.primary),
+          Icon(Icons.edit_note, color: theme.colorScheme.primary),
           const SizedBox(width: 10),
           Text(
-            "New Task",
+            "Create Task",
             style: TextStyle(
               color: theme.colorScheme.primary,
               fontWeight: FontWeight.bold,
@@ -39,45 +39,45 @@ class DialogBox extends StatelessWidget {
         ],
       ),
       content: SizedBox(
-        height: 120,
+        height: 130,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: theme.colorScheme.primary),
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: theme.colorScheme.tertiary),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
                       color: theme.colorScheme.primary,
-                      width: 2,
+                      width: 1.5,
                     ),
                   ),
-                  hintText: "Add a new task",
+                  hintText: "Enter task description",
                   hintStyle: TextStyle(
                     color: Color.fromRGBO(
-                      theme.colorScheme.primary.r.toInt(),
-                      theme.colorScheme.primary.g.toInt(),
-                      theme.colorScheme.primary.b.toInt(),
-                      0.6,
+                      theme.colorScheme.primary.red,
+                      theme.colorScheme.primary.green,
+                      theme.colorScheme.primary.blue,
+                      0.5,
                     ),
                   ),
                 ),
                 cursorColor: theme.colorScheme.primary,
               ),
             ),
+            const SizedBox(height: 4),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MyButton(text: "Cancel", onPressed: onCancel, isCancel: true),
-                const SizedBox(width: 10),
-                MyButton(text: "Save", onPressed: onSave, isCancel: false),
+                MyButton(text: "Dismiss", onPressed: onCancel, isCancel: true),
+                MyButton(text: "Create", onPressed: onSave, isCancel: false),
               ],
             ),
           ],

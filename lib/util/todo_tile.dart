@@ -21,101 +21,96 @@ class ToDoTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 7.0),
       child: Slidable(
         endActionPane: ActionPane(
-          motion: const StretchMotion(),
+          motion: const DrawerMotion(),
           children: [
             SlidableAction(
               onPressed: deleteFunction,
-              icon: Icons.delete,
+              icon: Icons.delete_outline,
               backgroundColor: theme.colorScheme.secondary,
               borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+                topRight: Radius.circular(10),
+                bottomRight: Radius.circular(10),
               ),
               foregroundColor: Colors.white,
             ),
           ],
         ),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           decoration: BoxDecoration(
-            color: taskCompleted ? Colors.white : theme.colorScheme.primary,
-            borderRadius: BorderRadius.circular(12),
-            border:
-                taskCompleted
-                    ? Border.all(color: theme.colorScheme.tertiary, width: 2)
-                    : null,
+            color: taskCompleted 
+                ? Colors.grey[50] 
+                : theme.colorScheme.primary,
+            borderRadius: BorderRadius.circular(10),
+            border: taskCompleted
+                ? Border.all(color: theme.colorScheme.tertiary, width: 1.5)
+                : null,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(
-                  theme.colorScheme.primary.r.toInt(),
-                  theme.colorScheme.primary.g.toInt(),
-                  theme.colorScheme.primary.b.toInt(),
-                  taskCompleted ? 0.1 : 0.2,
+                  theme.colorScheme.primary.red,
+                  theme.colorScheme.primary.green,
+                  theme.colorScheme.primary.blue,
+                  taskCompleted ? 0.1 : 0.3,
                 ),
-                blurRadius: 5,
+                blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
             ],
           ),
           child: Row(
             children: [
-              // Task completion checkbox
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                ),
+              // Checkbox with custom styling
+              Transform.scale(
+                scale: 1.1,
                 child: Checkbox(
                   value: taskCompleted,
                   onChanged: onChanged,
                   activeColor: theme.colorScheme.secondary,
                   checkColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(3),
                   ),
                   side: BorderSide(
-                    color:
-                        taskCompleted
-                            ? theme.colorScheme.secondary
-                            : theme.colorScheme.tertiary,
-                    width: 2,
+                    color: taskCompleted
+                        ? theme.colorScheme.secondary
+                        : theme.colorScheme.tertiary,
+                    width: 1.5,
                   ),
                 ),
               ),
 
-              const SizedBox(width: 16),
+              const SizedBox(width: 12),
 
               // Task name
               Expanded(
                 child: Text(
                   taskName,
                   style: TextStyle(
-                    decoration:
-                        taskCompleted
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                    color:
-                        taskCompleted
-                            ? theme.colorScheme.primary
-                            : Colors.white,
-                    fontWeight:
-                        taskCompleted ? FontWeight.normal : FontWeight.w600,
-                    fontSize: 16,
+                    decoration: taskCompleted
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                    decorationThickness: 2,
+                    color: taskCompleted
+                        ? theme.colorScheme.primary.withOpacity(0.7)
+                        : Colors.white,
+                    fontWeight: taskCompleted 
+                        ? FontWeight.normal 
+                        : FontWeight.w600,
+                    fontSize: 15,
                   ),
                 ),
               ),
 
-              // School icon indicator
+              // Priority indicator
               if (!taskCompleted)
                 Icon(
-                  Icons.school,
-                  color: Colors.white.withAlpha(
-                    179,
-                  ), // 0.7 opacity converted to alpha value (255 * 0.7 ≈ 179)
-                  size: 18,
+                  Icons.book,
+                  color: Colors.white.withAlpha(200),
+                  size: 20,
                 ),
             ],
           ),

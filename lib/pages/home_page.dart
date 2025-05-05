@@ -10,43 +10,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _controller = TextEditingController();
+  final _inputController = TextEditingController();
 
-  List toDoList = [
-    ["Complete Assignment", false],
-    ["Study for Exams", false],
+  List tasksList = [
+    ["Review Class Notes", false],
+    ["Prepare for Presentation", false],
   ];
 
-  void checkBoxChanged(bool? value, int index) {
+  void toggleTaskStatus(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1];
+      tasksList[index][1] = !tasksList[index][1];
     });
   }
 
-  void saveNewTask() {
+  void addNewTask() {
     setState(() {
-      toDoList.add([_controller.text, false]);
-      _controller.clear();
+      tasksList.add([_inputController.text, false]);
+      _inputController.clear();
     });
     Navigator.of(context).pop();
   }
 
-  void createNewTask() {
+  void openTaskCreator() {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-          controller: _controller,
-          onSave: saveNewTask,
+          controller: _inputController,
+          onSave: addNewTask,
           onCancel: () => Navigator.of(context).pop(),
         );
       },
     );
   }
 
-  void deleteTask(int index) {
+  void removeTask(int index) {
     setState(() {
-      toDoList.removeAt(index);
+      tasksList.removeAt(index);
     });
   }
 
@@ -55,65 +55,65 @@ class _HomePageState extends State<HomePage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: theme.colorScheme.primary,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: 40,
-              width: 40,
+              height: 36,
+              width: 36,
               decoration: BoxDecoration(
                 color: Colors.white,
-                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(40),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withAlpha(30),
+                    blurRadius: 3,
+                    offset: const Offset(0, 1),
                   ),
                 ],
               ),
-              child: ClipOval(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Image.asset(
-                    'assets/logo.png',
-                    fit: BoxFit.contain,
-                    errorBuilder:
-                        (context, error, stackTrace) => Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.school,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  'assets/logo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      Icons.book,
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
             Text(
-              "Student To Do App",
+              "To Do App",
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 fontSize: 18,
-                letterSpacing: 0.5,
               ),
             ),
           ],
         ),
-        elevation: 2,
+        elevation: 3,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: createNewTask,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: openTaskCreator,
         backgroundColor: theme.colorScheme.secondary,
-        child: const Icon(Icons.add, color: Colors.white),
+        icon: const Icon(Icons.add_task, color: Colors.white),
+        label: const Text(
+          "Add Task",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Column(
         children: [
@@ -122,58 +122,58 @@ class _HomePageState extends State<HomePage> {
               color: theme.colorScheme.primary,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha(20),
-                  blurRadius: 3,
-                  offset: const Offset(0, 2),
+                  color: Colors.black.withAlpha(15),
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
                 ),
               ],
             ),
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15,
-                    horizontal: 25,
+                Padding(
+                  padding: const EdgeInsets. symmetric(
+                    vertical: 12,
+                    horizontal: 20,
                   ),
                   child: Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text(
-                          "app.v1",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
                       const Text(
-                        "Task Manager",
+                        "My Tasks",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                         ),
                       ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Text(
+                          "${tasksList.length} items",
+                          style: TextStyle(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Container(
-                  height: 4,
+                  height: 3,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        theme.colorScheme.secondary,
                         theme.colorScheme.tertiary,
+                        theme.colorScheme.secondary,
                       ],
                     ),
                   ),
@@ -182,57 +182,58 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            child:
-                toDoList.isEmpty
-                    ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.check_circle_outline,
-                            size: 70,
+            child: tasksList.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.task_alt,
+                          size: 64,
+                          color: Color.fromRGBO(
+                            theme.colorScheme.primary.red,
+                            theme.colorScheme.primary.green,
+                            theme.colorScheme.primary.blue,
+                            0.6,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          "All caught up!",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Add new tasks with the button below",
+                          style: TextStyle(
+                            fontSize: 16,
                             color: Color.fromRGBO(
-                              theme.colorScheme.primary.r.toInt(),
-                              theme.colorScheme.primary.g.toInt(),
-                              theme.colorScheme.primary.b.toInt(),
+                              theme.colorScheme.primary.red,
+                              theme.colorScheme.primary.green,
+                              theme.colorScheme.primary.blue,
                               0.7,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          Text(
-                            "No tasks yet",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Add tasks using the + button",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromRGBO(
-                                theme.colorScheme.primary.r.toInt(),
-                                theme.colorScheme.primary.g.toInt(),
-                                theme.colorScheme.primary.b.toInt(),
-                                0.7,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                    : ListView.builder(
-                      itemCount: toDoList.length,
-                      itemBuilder: (context, index) {
-                        return ToDoTile(
-                          taskName: toDoList[index][0],
-                          taskCompleted: toDoList[index][1],
-                          onChanged: (value) => checkBoxChanged(value, index),
-                          deleteFunction: (context) => deleteTask(index),
-                        );
-                      },
+                        ),
+                      ],
                     ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 80),
+                    itemCount: tasksList.length,
+                    itemBuilder: (context, index) {
+                      return ToDoTile(
+                        taskName: tasksList[index][0],
+                        taskCompleted: tasksList[index][1],
+                        onChanged: (value) => toggleTaskStatus(value, index),
+                        deleteFunction: (context) => removeTask(index),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
